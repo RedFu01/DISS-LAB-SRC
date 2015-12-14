@@ -1,12 +1,15 @@
 package de.tuhh.diss.warehouse;
 import de.tuhh.diss.io.SimpleIO;
+import java.util.Arrays;
+
 import de.tuhh.diss.warehouse.WarehouseManagement;
 
-import de.tuhh.diss.warehouse.test.*;
 import sun.awt.image.PNGImageDecoder.Chromaticities;
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
 import de.tuhh.diss.warehouse.sim.*;
 public class WarehouseApp {
-	
+	private static WarehouseManagement warehouseManagement = new WarehouseManagement(new PhysicalWarehouse());
+
 	public static void main (String[] args) {
 		String choice = "";
 		boolean exit = false;
@@ -15,7 +18,6 @@ public class WarehouseApp {
 		/*
 		 * setting up a new WarehouseManagement
 		 */
-		WarehouseManagement warehouseManagement = new WarehouseManagement(new PhysicalWarehouse());
 		
 		// Display of the Header of the Menu 		
 		SimpleIO.println("Size: 16x5");
@@ -47,10 +49,18 @@ public class WarehouseApp {
 					e.printStackTrace();
 				}
 
-			case "2":
+			case "2": 
+				/*
+				 * RETRIEVING A PACKET: 
+				 * -Display a list of all stored packets
+				 * -choose packet to be retrieved, if "0"-> abort
+				 * -retrieve packet
+				 * 
+				 */
 				SimpleIO.println("*** Retrieve a packet ***");
 				
 				SimpleIO.println("Available packets: ");
+				printPackets();
 				SimpleIO.println("*** Enter ID of the packet to be retrieved (0 = abort)");
 				id=getId();
 				if (id!=0){
@@ -65,6 +75,7 @@ public class WarehouseApp {
 				}
 			case "0":
 				exit = true;
+				warehouseManagement.shutdown();
 				break;
 			}
 		}
@@ -116,15 +127,37 @@ public class WarehouseApp {
 	}
 	public static int setWidth(){
 		SimpleIO.print("Width: ");
-		return(SimpleIO.readInt());
+		int width=0;
+		try {
+			width = SimpleIO.readInt();
+		} catch (Exception e) {
+			SimpleIO.print("Insert a valid integer-value!");
+			setWidth();
+		}
+		return(width);
 	}
 	public static int setHeight(){
 		SimpleIO.print("Height: ");
-		return(SimpleIO.readInt());
+		int height=0;
+		try {
+			height = SimpleIO.readInt();
+		} catch (Exception e) {
+			SimpleIO.print("Insert a valid integer-value!");
+			setHeight();
+		}
+		return(height);
 	}
+	
 	public static int setDepth(){
 		SimpleIO.print("Depth: ");
-		return(SimpleIO.readInt());
+		int depth=0;
+		try {
+			depth = SimpleIO.readInt();
+		} catch (Exception e) {
+			SimpleIO.print("Insert a valid integer-value!");
+			setDepth();
+		}
+		return(depth);
 	}
 	public static int getId(){
 		int id = SimpleIO.readInt();
@@ -133,5 +166,8 @@ public class WarehouseApp {
 			getId();
 		}
 		return(id);
+	}
+	public static void printPackets(){
+		System.out.println(Arrays.deepToString(warehouseManagement.getPackets()));
 	}
 }
