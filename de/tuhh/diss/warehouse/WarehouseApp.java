@@ -3,12 +3,13 @@ import de.tuhh.diss.io.SimpleIO;
 import java.util.Arrays;
 
 import de.tuhh.diss.warehouse.WarehouseManagement;
+//import de.tuhh.diss.warehouse.test.WarehouseManagement;
 
 import sun.awt.image.PNGImageDecoder.Chromaticities;
 import sun.java2d.pipe.SpanShapeRenderer.Simple;
 import de.tuhh.diss.warehouse.sim.*;
 public class WarehouseApp {
-	private static WarehouseManagement warehouseManagement = new WarehouseManagement(new PhysicalWarehouse());
+	private static WarehouseManagement warehouseManagement = new WarehouseManagement();
 
 	public static void main (String[] args) {
 		String choice = "";
@@ -46,7 +47,6 @@ public class WarehouseApp {
 					warehouseManagement.storePacket(width, height, depth, description);
 				} catch (StorageException e) {
 					SimpleIO.print("Storage Error");
-					e.printStackTrace();
 				}
 
 			case "2": 
@@ -128,21 +128,34 @@ public class WarehouseApp {
 	public static int setWidth(){
 		SimpleIO.print("Width: ");
 		int width=0;
-		try {
+		
+		// check for non-integer input and negative values
+		try { 
 			width = SimpleIO.readInt();
 		} catch (Exception e) {
 			SimpleIO.print("Insert a valid integer-value!");
 			setWidth();
 		}
+		if (width<0){
+			SimpleIO.print("Insert a positive value!");
+			setWidth();
+		}
 		return(width);
 	}
+
 	public static int setHeight(){
 		SimpleIO.print("Height: ");
 		int height=0;
+		
+		// check for non-integer input and negative values
 		try {
 			height = SimpleIO.readInt();
 		} catch (Exception e) {
 			SimpleIO.print("Insert a valid integer-value!");
+			setHeight();
+		}
+		if (height<0){
+			SimpleIO.print("Insert a positive value!");
 			setHeight();
 		}
 		return(height);
@@ -151,10 +164,16 @@ public class WarehouseApp {
 	public static int setDepth(){
 		SimpleIO.print("Depth: ");
 		int depth=0;
+		
+		// check for non-integer input and negative values
 		try {
 			depth = SimpleIO.readInt();
 		} catch (Exception e) {
 			SimpleIO.print("Insert a valid integer-value!");
+			setDepth();
+		}
+		if (depth<0){
+			SimpleIO.print("Insert a positive value!");
 			setDepth();
 		}
 		return(depth);
@@ -168,6 +187,9 @@ public class WarehouseApp {
 		return(id);
 	}
 	public static void printPackets(){
-		System.out.println(Arrays.deepToString(warehouseManagement.getPackets()));
+		Packet[] array = warehouseManagement.getPackets();
+		for (int i=0; i<array.length; i++){
+			SimpleIO.println(i+":"+array[i].getId()+"  description:"+array[i].getDescription());
+		}
 	}
 }
