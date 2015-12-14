@@ -27,6 +27,7 @@ public class CraneControl {
 		if (initialX < targetX) {
 			while (initialX < targetX) {
 				crane.forward();
+				initialX += 1;
 				stallTestX();
 			}
 		}
@@ -34,6 +35,7 @@ public class CraneControl {
 		if (initialX > targetX) {
 			while (initialX > targetX) {
 				crane.backward();
+				initialX -= 1;
 				stallTestX();
 			}
 		}
@@ -51,6 +53,7 @@ public class CraneControl {
 		if (initialY < targetY) {
 			while (initialY < targetY) {
 				crane.up();
+				initialY += 1;
 				stallTestY();
 			}
 		}
@@ -58,6 +61,7 @@ public class CraneControl {
 		if (initialY > targetY) {
 			while (initialY > targetY) {
 				crane.down();
+				initialY -= 1;
 				stallTestY();
 			}
 		}
