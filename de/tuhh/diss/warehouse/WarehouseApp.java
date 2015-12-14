@@ -1,5 +1,6 @@
 package de.tuhh.diss.warehouse;
 import de.tuhh.diss.io.SimpleIO;
+import de.tuhh.diss.warehouse.WarehouseManagement;
 
 import de.tuhh.diss.warehouse.test.*;
 import sun.awt.image.PNGImageDecoder.Chromaticities;
@@ -9,8 +10,12 @@ public class WarehouseApp {
 	public static void main (String[] args) {
 		String choice = "";
 		boolean exit = false;
-		double width = 0, height = 0, depth = 0;
-		String DESCRIPTION = "";
+		int width = 0, height = 0, depth = 0, id=-1;
+		String description = "";
+		/*
+		 * setting up a new WarehouseManagement
+		 */
+		WarehouseManagement warehouseManagement = new WarehouseManagement(new PhysicalWarehouse());
 		
 		// Display of the Header of the Menu 		
 		SimpleIO.println("Size: 16x5");
@@ -22,6 +27,7 @@ public class WarehouseApp {
 		/*
 		 *  As long as the choice is not "0", the 
 		 */
+		
 		while (exit==false) {
 			MainMenuText();
 			choice=chooseInput();
@@ -30,16 +36,33 @@ public class WarehouseApp {
 				SimpleIO.println("*** Store a packet ***");
 				SimpleIO.println("Set a new packet up...");
 				//Packet.width = readDouble();
-				DESCRIPTION = setDescription();
+				description = setDescription();
 				width = setWidth();
 				height = setHeight();
 				depth = setDepth();
-				Packet packet1 = new Packet();/*ID, DESCRIPTION, SLOTNUMBER, WIDTH, HEIGHT, DEPTH*/
+				try {
+					warehouseManagement.storePacket(width, height, depth, description);
+				} catch (StorageException e) {
+					SimpleIO.print("Storage Error");
+					e.printStackTrace();
+				}
+
 			case "2":
 				SimpleIO.println("*** Retrieve a packet ***");
-
+				
 				SimpleIO.println("Available packets: ");
 				SimpleIO.println("*** Enter ID of the packet to be retrieved (0 = abort)");
+				id=getId();
+				if (id!=0){
+					try {
+						warehouseManagement.retrievePacket(id);
+					} catch (StorageException e) {
+						SimpleIO.print("Storage Error");
+						e.printStackTrace();
+					}
+				}else{
+					SimpleIO.println("Retrieve packet aborted!");
+				}
 			case "0":
 				exit = true;
 				break;
@@ -91,16 +114,24 @@ public class WarehouseApp {
 		SimpleIO.print("Description: ");
 		return(SimpleIO.readString());
 	}
-	public static double setWidth(){
+	public static int setWidth(){
 		SimpleIO.print("Width: ");
-		return(SimpleIO.readDouble());
+		return(SimpleIO.readInt());
 	}
-	public static double setHeight(){
+	public static int setHeight(){
 		SimpleIO.print("Height: ");
-		return(SimpleIO.readDouble());
+		return(SimpleIO.readInt());
 	}
-	public static double setDepth(){
+	public static int setDepth(){
 		SimpleIO.print("Depth: ");
-		return(SimpleIO.readDouble());
+		return(SimpleIO.readInt());
+	}
+	public static int getId(){
+		int id = SimpleIO.readInt();
+		if (id<0){
+			SimpleIO.print("Enter a valid ID!");
+			getId();
+		}
+		return(id);
 	}
 }
