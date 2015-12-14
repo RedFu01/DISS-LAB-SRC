@@ -22,6 +22,16 @@ public class Slot implements StoragePlace {
 		this.positionY = positionY;
 	}
 	
+	public Slot(int number, int width, int height, int depth, int positionX, int positionY, Packet containedPacket){
+		this.number = number;
+		this.width = width;
+		this.height = height;
+		this.depth = depth;
+		this.positionX = positionX;
+		this.positionY = positionY;
+		this.containedPacket = containedPacket;
+	}
+	
 	public int getNumber() {
 		return this.number; 
 	}
