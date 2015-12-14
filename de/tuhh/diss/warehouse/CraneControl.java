@@ -25,21 +25,33 @@ public class CraneControl {
 		int targetX = x;
 
 		if (initialX < targetX) {
-			while (initialX < targetX) {
-				crane.forward();
-				initialX += 1;
-				stallTestX();
+			crane.forward();
+			while (true) {
+				if(initialX == targetX) {
+					crane.stopX();
+					break;
+				}
+				
+				else {
+					stallTestX();
+				}
 			}
 		}
 
 		if (initialX > targetX) {
-			while (initialX > targetX) {
-				crane.backward();
-				initialX -= 1;
-				stallTestX();
+			crane.backward();
+			while (true) {
+				if(initialX == targetX) {
+					crane.stopX();
+					break;
+				}
+				
+				else {
+					stallTestX();
+				}
 			}
 		}
-
+		
 		else {
 			crane.stopX();
 		}
@@ -51,18 +63,30 @@ public class CraneControl {
 		int targetY = y;
 
 		if (initialY < targetY) {
-			while (initialY < targetY) {
-				crane.up();
-				initialY += 1;
-				stallTestY();
+			crane.up();
+			while (true) {
+				if (initialY == targetY) {
+					crane.stopY();
+					break;
+				}
+
+				else {
+					stallTestY();
+				}
 			}
 		}
 
 		if (initialY > targetY) {
-			while (initialY > targetY) {
-				crane.down();
-				initialY -= 1;
-				stallTestY();
+			crane.down();
+			while (true) {
+				if (initialY == targetY) {
+					crane.stopY();
+					break;
+				}
+
+				else {
+					stallTestY();
+				}
 			}
 		}
 
@@ -80,14 +104,16 @@ public class CraneControl {
 	}
 
 	public void stallTestX() {
-		// Exception to detect whether the crane is stalled in x-direction movement
+		// Exception to detect whether the crane is stalled in x-direction
+		// movement
 		if (crane.isStalledX() == true) {
 			throw new CraneException("Crane is currently stalled at x = " + crane.getPositionX());
 		}
 	}
 
 	public void stallTestY() {
-		// Exception to detect whether the crane is stalled in y-direction movement
+		// Exception to detect whether the crane is stalled in y-direction
+		// movement
 		if (crane.isStalledY() == true) {
 			throw new CraneException("Crane is currently stalled at y = " + crane.getPositionY());
 		}
@@ -95,8 +121,7 @@ public class CraneControl {
 
 	public void storePacket(int x, int y, StorageElement packet) {
 		if (packet == null) {
-			throw new CraneException(
-					"CraneControl.storePacket - there is no packet in the crane at the moment.");
+			throw new CraneException("CraneControl.storePacket - there is no packet in the crane at the moment.");
 		}
 
 		// Drive to the loading/unloading bay, then load packet into the crane
@@ -122,5 +147,5 @@ public class CraneControl {
 	public void shutdown() {
 		crane.shutdown();
 	}
-	
+
 }
