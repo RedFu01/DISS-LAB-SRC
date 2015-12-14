@@ -17,6 +17,11 @@ public class WarehouseManagement implements HighBayWarehouse {
 		this.craneControl = new CraneControl(this.warehouse.getCrane());
 	}
 	
+	public WarehouseManagement(){
+		this.warehouse = new PhysicalWarehouse();
+		this.craneControl = new CraneControl(this.warehouse.getCrane());
+	}
+	
 	private Slot findSlotByPacketId(int id){
 		StoragePlace[] storagePlaces = this.warehouse.getStoragePlacesAsArray();
 		for(int i=0; i< storagePlaces.length; i++){
