@@ -27,31 +27,33 @@ public class CraneControl {
 		if (initialX < targetX) {
 			crane.forward();
 			while (true) {
-				if(initialX == targetX) {
+				if (initialX == targetX) {
 					crane.stopX();
 					break;
 				}
-				
+
 				else {
 					stallTestX();
+					initialX = crane.getPositionX();
 				}
 			}
 		}
 
-		if (initialX > targetX) {
+		else if (initialX > targetX) {
 			crane.backward();
 			while (true) {
-				if(initialX == targetX) {
+				if (initialX == targetX) {
 					crane.stopX();
 					break;
 				}
-				
+
 				else {
 					stallTestX();
+					initialX = crane.getPositionX();
 				}
 			}
 		}
-		
+
 		else {
 			crane.stopX();
 		}
@@ -72,11 +74,12 @@ public class CraneControl {
 
 				else {
 					stallTestY();
+					initialY = crane.getPositionY();
 				}
 			}
 		}
 
-		if (initialY > targetY) {
+		else if (initialY > targetY) {
 			crane.down();
 			while (true) {
 				if (initialY == targetY) {
@@ -86,10 +89,11 @@ public class CraneControl {
 
 				else {
 					stallTestY();
+					initialY = crane.getPositionY();
 				}
 			}
-		}
-
+		} 
+		
 		else {
 			crane.stopY();
 		}
