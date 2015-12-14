@@ -2,8 +2,8 @@ package de.tuhh.diss.warehouse;
 import de.tuhh.diss.io.SimpleIO;
 import java.util.Arrays;
 
-import de.tuhh.diss.warehouse.WarehouseManagement;
-//import de.tuhh.diss.warehouse.test.WarehouseManagement;
+//import de.tuhh.diss.warehouse.WarehouseManagement;
+import de.tuhh.diss.warehouse.test.WarehouseManagement;
 
 import sun.awt.image.PNGImageDecoder.Chromaticities;
 import sun.java2d.pipe.SpanShapeRenderer.Simple;
@@ -37,7 +37,7 @@ public class WarehouseApp {
 			switch (choice) {
 			case "1":
 				SimpleIO.println("*** Store a packet ***");
-				SimpleIO.println("Set a new packet up...");
+				SimpleIO.println("Set up a new packet...");
 				//Packet.width = readDouble();
 				description = setDescription();
 				width = setWidth();
@@ -48,7 +48,7 @@ public class WarehouseApp {
 				} catch (StorageException e) {
 					SimpleIO.print("Storage Error");
 				}
-
+				break;
 			case "2": 
 				/*
 				 * RETRIEVING A PACKET: 
@@ -61,6 +61,7 @@ public class WarehouseApp {
 				
 				SimpleIO.println("Available packets: ");
 				printPackets();
+				
 				SimpleIO.println("*** Enter ID of the packet to be retrieved (0 = abort)");
 				id=getId();
 				if (id!=0){
@@ -70,17 +71,17 @@ public class WarehouseApp {
 						SimpleIO.print("Storage Error");
 						e.printStackTrace();
 					}
+					SimpleIO.println();
 				}else{
 					SimpleIO.println("Retrieve packet aborted!");
 				}
+				break;
 			case "0":
 				exit = true;
 				warehouseManagement.shutdown();
 				break;
 			}
 		}
-		SimpleIO.println("System ends.");
-		SimpleIO.println("PhysicalCrane was shut down.");
 	}
 	
 	/*
@@ -187,9 +188,11 @@ public class WarehouseApp {
 		return(id);
 	}
 	public static void printPackets(){
-		Packet[] array = warehouseManagement.getPackets();
+		de.tuhh.diss.warehouse.test.Packet[] array = warehouseManagement.getPackets();
+		//Packet[] array = warehouseManagement.getPackets();
 		for (int i=0; i<array.length; i++){
-			SimpleIO.println(i+":"+array[i].getId()+"  description:"+array[i].getDescription());
+			SimpleIO.println("ID:"+array[i].getId()+"  description:"+array[i].getDescription());
 		}
+		SimpleIO.println();
 	}
 }
