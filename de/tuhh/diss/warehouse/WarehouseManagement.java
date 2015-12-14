@@ -36,8 +36,9 @@ public class WarehouseManagement implements HighBayWarehouse {
 		int currentVolumeOffset = 1000;
 		Slot slot = null;
 		for( int i=0; i< storagePlaces.length; i++){
-			if(packet.fitsInSlot((Slot)storagePlaces[i]) && getVolumeOffset(packet, (Slot) storagePlaces[i]) < currentVolumeOffset){
-				slot = (Slot) storagePlaces[i];
+			Slot testSlot = new Slot(storagePlaces[i].getNumber(), storagePlaces[i].getWidth(),storagePlaces[i].getHeight(),storagePlaces[i].getDepth(),storagePlaces[i].getPositionX(),storagePlaces[i].getPositionY());
+			if(packet.fitsInSlot(testSlot) && getVolumeOffset(packet, testSlot) < currentVolumeOffset){
+				slot = testSlot;
 			}
 		}
 		return slot;
