@@ -11,6 +11,7 @@ import de.tuhh.diss.warehouse.sim.StoragePlace;
 public class WarehouseManagement implements HighBayWarehouse {
 	private CraneControl craneControl;
 	private PhysicalWarehouse warehouse;
+	private int packetId =1;
 	private Slot[] slots;
 	
 	public WarehouseManagement(PhysicalWarehouse warehouse){
@@ -92,6 +93,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 		slot.setContainedPacket(packet);
 		this.craneControl.storePacket(slot.getPositionX(), slot.getPositionY(), packet);
 		
+		packet.setId(this.packetId++);
 		return slot.getId();
 				
 	}
