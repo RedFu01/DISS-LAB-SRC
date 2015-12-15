@@ -2,6 +2,7 @@ package de.tuhh.diss.warehouse;
 
 import de.tuhh.diss.warehouse.sim.StorageElement;
 import de.tuhh.diss.warehouse.sim.PhysicalCrane;
+import de.tuhh.diss.io.SimpleIO;
 import de.tuhh.diss.warehouse.sim.CraneException;
 
 public class CraneControl {
@@ -27,31 +28,33 @@ public class CraneControl {
 		if (initialX < targetX) {
 			crane.forward();
 			while (true) {
-				if(initialX == targetX) {
+				if (initialX == targetX) {
 					crane.stopX();
 					break;
 				}
-				
+
 				else {
 					stallTestX();
+					initialX = crane.getPositionX();
 				}
 			}
 		}
 
-		if (initialX > targetX) {
+		else if (initialX > targetX) {
 			crane.backward();
 			while (true) {
-				if(initialX == targetX) {
+				if (initialX == targetX) {
 					crane.stopX();
 					break;
 				}
-				
+
 				else {
 					stallTestX();
+					initialX = crane.getPositionX();
 				}
 			}
 		}
-		
+
 		else {
 			crane.stopX();
 		}
@@ -72,11 +75,12 @@ public class CraneControl {
 
 				else {
 					stallTestY();
+					initialY = crane.getPositionY();
 				}
 			}
 		}
 
-		if (initialY > targetY) {
+		else if (initialY > targetY) {
 			crane.down();
 			while (true) {
 				if (initialY == targetY) {
@@ -86,10 +90,11 @@ public class CraneControl {
 
 				else {
 					stallTestY();
+					initialY = crane.getPositionY();
 				}
 			}
-		}
-
+		} 
+		
 		else {
 			crane.stopY();
 		}
@@ -121,26 +126,42 @@ public class CraneControl {
 
 	public void storePacket(int x, int y, StorageElement packet) {
 		if (packet == null) {
-			throw new CraneException("CraneControl.storePacket - there is no packet in the crane at the moment.");
+			throw new CraneException("CraneControl.storePacket - there is no packet at the moment.");
 		}
 
 		// Drive to the loading/unloading bay, then load packet into the crane
 		driveToLoadingPosition();
-		crane.loadElement(packet);
+		try {
+			crane.loadElement(packet);
+		}
+		catch (CraneException loadNA) {
+			SimpleIO.println("Crane is occupied -OR- operation cannot be performed in this position");
+		}
+		
 
 		// Drive to the storage space, then store the packet
 		driveTo(x, y);
-		crane.storeElement();
-
+		try {
+			crane.storeElement();
+		}
+		catch (CraneException storageNA) {
+			SimpleIO.println("Storage is occupied -OR- The crane is empty.");
+			
+		}
 	}
 
 	public StorageElement retrievePacket(int x, int y) {
 		// Drive to the storage space, then load the packet into the crane
 		driveTo(x, y);
-		crane.retrieveElement();
+		try {
+			crane.retrieveElement();
+		}
+		catch (CraneException retrieveNA) {
+			SimpleIO.println("There is no packet stored here -OR- The crane is unavailable.");
+		}
 
 		// Drive to the loading/unloading bay, then unload packet off the crane
-		driveToLoadingPosition();
+		driveToLoadingPosition();	
 		return crane.unloadElement();
 	}
 
