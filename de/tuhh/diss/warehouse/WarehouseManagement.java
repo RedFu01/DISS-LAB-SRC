@@ -36,7 +36,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 			Slot tempSlot = new Slot(storagePlaces[i].getNumber(),storagePlaces[i].getWidth(),storagePlaces[i].getHeight(),storagePlaces[i].getDepth(),storagePlaces[i].getPositionX(),storagePlaces[i].getPositionY());
 			slotList.add(tempSlot);
 		}
-		this.slots = (Slot[]) slotList.toArray();
+		this.slots = (Slot[]) slotList.toArray(new Slot[slotList.size()]);
 	}
 	
 	/**  
