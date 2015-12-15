@@ -68,7 +68,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 	 * @param the packet to store
 	 * @return returns a slot
 	 */
-	private Slot getBestStoragePlace(Packet packet){
+	public Slot getBestStoragePlace(Packet packet){
 		int currentVolumeOffset = 1000;
 		Slot slot = null;
 		for( int i=0; i< this.slots.length; i++){
