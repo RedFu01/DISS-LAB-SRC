@@ -48,7 +48,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 	 */
 	private Slot findSlotByPacketId(int id){
 		for( int i=0; i< this.slots.length; i++){
-			if(this.slots[i].getContainedPacket() != null && this.slots[i].getId() == id){
+			if(this.slots[i].getContainedPacket() != null && this.slots[i].getContainedPacket().getId() == id){
 				return this.slots[i];
 			}
 		}

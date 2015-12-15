@@ -8,20 +8,20 @@ import de.tuhh.diss.warehouse.sim.CraneException;
 public class CraneControl {
 
 	// Define crane as a type of PhysicalCrane
-	public PhysicalCrane crane;
+	private PhysicalCrane crane;
 
 	public CraneControl(PhysicalCrane cr) {
 		crane = cr;
 	}
 
 	// Drive the crane to the desired position of (x,y)
-	public void driveTo(int x, int y) {
+	private void driveTo(int x, int y) {
 		driveToX(x);
 		driveToY(y);
 	}
 
 	// Drive the crane to the desired position of (x)
-	public void driveToX(int x) {
+	private void driveToX(int x) {
 		int initialX = crane.getPositionX();
 		int targetX = x;
 		
@@ -63,7 +63,7 @@ public class CraneControl {
 	}
 
 	// Drive the crane to the desired position of (y)
-	public void driveToY(int y) {
+	private void driveToY(int y) {
 		int initialY = crane.getPositionY();
 		int targetY = y;
 		
@@ -105,21 +105,21 @@ public class CraneControl {
 	}
 
 	// Drive the crane to the loading/unloading bay
-	public void driveToLoadingPosition() {
+	private void driveToLoadingPosition() {
 		int LoadPosX = crane.getLoadingPosX();
 		int LoadPosY = crane.getLoadingPosY();
 
 		driveTo(LoadPosX, LoadPosY);
 	}
 
-	public void stallTestX() {
+	private void stallTestX() {
 		// Exception to detect whether the crane is stalled in x-direction movement
 		if (crane.isStalledX() == true) {
 			throw new CraneException("Crane is currently stalled at x = " + crane.getPositionX());
 		}
 	}
 
-	public void stallTestY() {
+	private void stallTestY() {
 		// Exception to detect whether the crane is stalled in y-direction movement
 		if (crane.isStalledY() == true) {
 			throw new CraneException("Crane is currently stalled at y = " + crane.getPositionY());
