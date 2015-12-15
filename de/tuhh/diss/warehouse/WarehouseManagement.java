@@ -21,6 +21,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 	
 	public WarehouseManagement(){
 		this.warehouse = new PhysicalWarehouse();
+		this.craneControl = new CraneControl(this.warehouse.getCrane());
 		this.initialize();
 	}
 	
@@ -120,7 +121,7 @@ public class WarehouseManagement implements HighBayWarehouse {
 			}
 		}
 		
-		return (Packet[]) packetList.toArray();
+		return (Packet[]) packetList.toArray(new Packet[packetList.size()]);
 	}
 	
 	/**  

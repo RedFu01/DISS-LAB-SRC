@@ -5,19 +5,23 @@ import de.tuhh.diss.io.SimpleIO;
  * when the statement below is changed, check the corresponding statement in printPackets() in the bottom iof the code!!
  */
 //import de.tuhh.diss.warehouse.WarehouseManagement;
-import de.tuhh.diss.warehouse.test.WarehouseManagement;
+import de.tuhh.diss.warehouse.WarehouseManagement;
 import de.tuhh.diss.warehouse.sim.*;
 
 public class WarehouseApp {
 	
 	/*setting up a new WarehouseManagement*/
 	private static WarehouseManagement warehouseManagement = new WarehouseManagement();
+	
 
 	public static void main (String[] args) {
 		String choice = ""; 							//for main menu maneuvering
 		boolean exit = false;							//for shutdown of the program
 		int width = 0, height = 0, depth = 0, id=-1;	// variables for input 
 		String description = "";
+		
+		WarehouseTest test = new WarehouseTest(warehouseManagement);
+		//test.test();
 		
 		/*Display of the Header*/ 		
 		SimpleIO.println("Size: 16x5");
@@ -88,6 +92,9 @@ public class WarehouseApp {
 					}
 					
 					break;
+				case "test": //top secret option to test :P
+					test.test();
+					break;
 					
 				case "0":
 				/* 
@@ -125,7 +132,7 @@ public class WarehouseApp {
 		 * security, that the input is correct
 		 * as long as the String "choice" is not in the range of available menu points, it will be stuck in a loop
 		 */
-		if (choice.equals("1") || choice.equals("2") || choice.equals("0")){
+		if (choice.equals("1") || choice.equals("2") || choice.equals("0") || choice.equals("test")){
 		} else{
 			SimpleIO.println("Please make a valid choice! ('1' or '2' or '0')");
 			chooseInput();
@@ -232,10 +239,10 @@ public class WarehouseApp {
 	public static void printPackets(){
 		
 		//for testing with the provided "test.warehouse"
-		de.tuhh.diss.warehouse.test.Packet[] array = warehouseManagement.getPackets();
+		//de.tuhh.diss.warehouse.test.Packet[] array = warehouseManagement.getPackets();
 		
 		//for use of own warehouse
-		//Packet[] array = warehouseManagement.getPackets();
+		Packet[] array = warehouseManagement.getPackets();
 		for (int i=0; i<array.length; i++){
 			SimpleIO.println("ID:"+array[i].getId()+"  description:"+array[i].getDescription());
 		}
