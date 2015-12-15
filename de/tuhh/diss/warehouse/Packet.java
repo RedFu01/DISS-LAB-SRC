@@ -19,6 +19,9 @@ public class Packet implements StorageElement{
 	}
 	
 	public boolean fitsInSlot(Slot slot){
+		if(slot.getContainedPacket() != null){
+			return false;
+		}
 		return (this.width <= slot.getWidth() && this.height <= slot.getHeight() && this.depth <= slot.getDepth());
 	}
 	
