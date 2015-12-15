@@ -7,7 +7,7 @@ import de.tuhh.diss.warehouse.sim.CraneException;
 
 public class CraneControl {
 
-	// Define an instance variable crane as a type of PhysicalCrane
+	// Define crane as a type of PhysicalCrane
 	public PhysicalCrane crane;
 
 	public CraneControl(PhysicalCrane cr) {
@@ -24,7 +24,8 @@ public class CraneControl {
 	public void driveToX(int x) {
 		int initialX = crane.getPositionX();
 		int targetX = x;
-
+		
+		// When the target x-position is further than the crane
 		if (initialX < targetX) {
 			crane.forward();
 			while (true) {
@@ -39,7 +40,8 @@ public class CraneControl {
 				}
 			}
 		}
-
+		
+		// When the target x-position is behind than the crane
 		else if (initialX > targetX) {
 			crane.backward();
 			while (true) {
@@ -64,7 +66,8 @@ public class CraneControl {
 	public void driveToY(int y) {
 		int initialY = crane.getPositionY();
 		int targetY = y;
-
+		
+		// When the target y-position is higher than the crane
 		if (initialY < targetY) {
 			crane.up();
 			while (true) {
@@ -79,7 +82,8 @@ public class CraneControl {
 				}
 			}
 		}
-
+		
+		// When the target y-position is lower than the crane
 		else if (initialY > targetY) {
 			crane.down();
 			while (true) {
@@ -109,16 +113,14 @@ public class CraneControl {
 	}
 
 	public void stallTestX() {
-		// Exception to detect whether the crane is stalled in x-direction
-		// movement
+		// Exception to detect whether the crane is stalled in x-direction movement
 		if (crane.isStalledX() == true) {
 			throw new CraneException("Crane is currently stalled at x = " + crane.getPositionX());
 		}
 	}
 
 	public void stallTestY() {
-		// Exception to detect whether the crane is stalled in y-direction
-		// movement
+		// Exception to detect whether the crane is stalled in y-direction movement
 		if (crane.isStalledY() == true) {
 			throw new CraneException("Crane is currently stalled at y = " + crane.getPositionY());
 		}
